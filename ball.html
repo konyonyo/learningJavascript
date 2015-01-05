@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ball</title>
+<script>
+window.addEventListener("load", eventWindowLoaded, false);
+
+function eventWindowLoaded(){
+  canvasApp();
+}
+
+function canvasApp(){
+  var balls=[];
+  var backgroundColor="#ffffff";
+  var myCanvas=document.getElementById("myCanvas");
+  var context=myCanvas.getContext("2d");
+  myCanvas.addEventListener("click", eventCanvasClicked, false);
+  var mySelect=document.getElementById("mySelect");
+  mySelect.addEventListener("change", eventSelected, false);
+  setInterval(drawScreen, 30);
+
+  function drawScreen(){
+    setScreen();
+    if(balls.length!=0){
+      for(var i=0; i<balls.length; i++){
+        var ball=balls[i];
+        context.fillStyle=ball.col;
+        context.beginPath();
+        context.arc(ball.x, ball.y, ball.r, 0, Math.PI*2, true);
+        context.fill();
+        if(ball.x<0||ball.x>myCanvas.width){
+          ball.vx=-ball.vx;
+        }
+        if(ball.y<0||ball.y>myCanvas.height){
+          ball.vy=-ball.vy;
+        }
+        ball.x+=ball.vx;
+        ball.y+=ball.vy;
+      }
+    }
+  }
+
+  var Ball=function(x, y){
+    this.x=x;
+    this.y=y;
+    var flag;
+    var flagVx;
+    var flagVy;
+    flag=Math.floor(Math.random()*2);
+    if(flag==0){
+      flagVx=1;
+    }else{
+      flagVx=-1;
+    }
+    flag=Math.floor(Math.random()*2);
+    if(flag==0){
+      flagVy=1;
+    }else{
+      flagVy=-1;
+    }
+    this.vx=flagVx*Math.floor(Math.random()*20);
+    this.vy=flagVy*Math.floor(Math.random()*20);
+    this.r=Math.floor(Math.random()*30);
+    var red=Math.floor(Math.random()*256);
+    var green=Math.floor(Math.random()*256);
+    var blue=Math.floor(Math.random()*256);
+    this.col="rgba("+red+", "+green+", "+blue+", "+"0.5)";
+  }
+
+  function eventCanvasClicked(e){
+    var rect=myCanvas.getBoundingClientRect();
+    var mouseX=e.clientX-rect.left;
+    var mouseY=e.clientY-rect.top;
+    var ball=new Ball(mouseX, mouseY);
+    balls.push(ball);
+  }
+
+  function eventSelected(){
+    var value=mySelect.options[mySelect.selectedIndex].value;
+    backgroundColor=value;
+  }
+  
+  function setScreen(){
+    context.fillStyle=backgroundColor;
+    context.fillRect(0, 0, myCanvas.width, myCanvas.height);
+    context.strokeStyle="#000000";
+    context.strokeRect(0, 0, myCanvas.width, myCanvas.height);
+  }
+}
+</script>
+</head>
+<body>
+<div align="center">
+<h1>ball</h1>
+<p>
+四角の中をクリックしてみてください。
+</p>
+<canvas id="myCanvas" width="800" height="400"></canvas>
+<br>
+背景色の選択：
+<select id="mySelect">
+<option value="white">white</option>
+<option value="black">black</option>
+<option value="green">green</option>
+<option value="silver">silver</option>
+<option value="lime">lime</option>
+<option value="gray">gray</option>
+<option value="olive">olive</option>
+<option value="yellow">yellow</option>
+<option value="maroon">maroon</option>
+<option value="navy">navy</option>
+<option value="red">red</option>
+<option value="blue">blue</option>
+<option value="purple">purple</option>
+<option value="teal">teal</option>
+<option value="fuchsia">fuchsia</option>
+<option value="aqua">aqua</option>
+</select>
+</div>
+</body>
+</html>

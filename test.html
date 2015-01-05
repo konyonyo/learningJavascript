@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+
+<title>htmlの練習</title>
+
+<!--ここからJavaScript-->
+
+<script>
+window.alert("処理が始まります");
+x=window.confirm("背景を青くしてもよいですか？");
+
+if(x==true){
+  document.write("\
+    <style>\
+      body{\
+        background-color:#48D1CC;\
+      }\
+    </style>\
+  ");
+}
+</script>
+
+<!--ここまでJavaScript-->
+
+</head>
+
+<body>
+<h1>headにJavaScript</h1>
+
+<p>headにJavaScriptを書いています。<br>
+・window.alertで警告を表示する。<br>
+・window.confirmで質問をする。<br>
+・document.writeでHTMLソースを出力する。<br>
+・window.promptで入力を受け付ける。<br
+</p>
+
+<!--ここからJavaScript-->
+<script>
+text=window.prompt("何か入力してください。");
+document.write("<p>"+text+"</p>");
+</script>
+</body>
+</html>

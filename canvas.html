@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>canvas</title>
+<script>
+window.addEventListener("load", function(){
+  var canvasW=800;
+  var canvasH=561;
+  var canvasObj=document.getElementById("myCanvas");
+  var context=canvasObj.getContext("2d");
+  var imgObj=new Image(canvasW, canvasH);
+  imgObj.src="ega.jpg";
+  imgObj.onload=function(){
+    context.drawImage(imgObj, 0, 0);
+    var imageData=context.getImageData(0, 0, canvasW, canvasH);//ピクセル値を取得する
+    var w=imageData.width;
+    var h=imageData.height;
+    var pixelImage=context.createImageData(w, h);
+    //フィルター処理
+   for(var y=0; y<h; y++){
+     for(var x=0; x<w; x++){
+       var ptr=(y*w+x)*4;
+       var R=imageData.data[ptr+0];
+       var G=imageData.data[ptr+1];
+       var B=imageData.data[ptr+2];
+       G=G*2;
+       if(G>255){
+         G=255;
+       }
+       R=Math.floor(R/2);
+       B=Math.floor(B/2);
+       pixelImage.data[ptr+0]=R;
+       pixelImage.data[ptr+1]=G;
+       pixelImage.data[ptr+2]=B;
+       pixelImage.data[ptr+3]=255;
+     }
+   }
+   context.putImageData(pixelImage, 0, 0);
+  }
+}, true);
+</script>
+</head>
+<body>
+<div align="center">
+<h1>Canvas</h1>
+<canvas id="myCanvas" width="800" height="561"></canvas>
+</div>
+</body>
+</html>

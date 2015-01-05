@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>くじ引き</title>
+<script>
+var tagNum=41;
+var selected;
+var previous=0;
+var black=-1;
+var timer;
+
+document.getElementById("stop").setAttribute("disabled", true);
+
+function start(){
+  document.getElementById("start").setAttribute("disabled", true);
+  document.getElementById("stop").removeAttribute("disabled");
+  if(black!=-1){
+    blackTag("id"+black);
+    setTagId(tagNum);
+  }
+  timer=setInterval(function(){
+    whiteTag("id"+previous);
+    selected=getRandomNum(tagNum);
+    redTag("id"+selected);
+    previous=selected;
+  }, 10);
+}
+
+function stop(){
+  document.getElementById("stop").setAttribute("disabled", true);
+  document.getElementById("start").removeAttribute("disabled");
+  clearInterval(timer);
+  whiteTag("id"+previous);
+  selected=getRandomNum(tagNum);
+  redTag("id"+selected);
+  black=selected;
+  previous=0;
+  if(tagNum==2){
+    window.alert("くじ引きは終了しました。");
+    document.getElementById("start").setAttribute("disabled", true);
+  }
+}
+
+function setTagId(num){
+  var blackElement=document.getElementById("id"+black);
+  blackElement.id="";
+  for(i=black+1; i<num; i++){
+    var element=document.getElementById("id"+i);
+    element.id="id"+(i-1);
+  }
+  tagNum--;
+}
+
+function getRandomNum(b){
+  var randomNum=Math.floor(Math.random()*b);
+  return(randomNum);
+}
+
+function redTag(id){
+  var element=document.getElementById(id);
+  element.style.backgroundColor="#FF0000";
+}
+
+function whiteTag(id){
+  var element=document.getElementById(id);
+  element.style.backgroundColor="#FFFFFF";
+}
+
+function blackTag(id){
+  var element=document.getElementById(id);
+  element.style.backgroundColor="#000000";
+}
+</script>
+</head>
+<body>
+<div align="center">
+<h1>くじ引き</h1>
+<button id="start" onClick="start()">start</button>
+<button id="stop" onClick="stop()">stop</button>
+<br>
+<br>
+<table border="1">
+<tr>
+<td id="id0">あ</td>
+<td id="id1">い</td>
+<td id="id2">う</td>
+<td id="id3">え</td>
+<td id="id4">お</td>
+</tr>
+<tr>
+<td id="id5">か</td>
+<td id="id6">き</td>
+<td id="id7">く</td>
+<td id="id8">け</td>
+<td id="id9">こ</td>
+</tr>
+<tr>
+<td id="id10">さ</td>
+<td id="id11">し</td>
+<td id="id12">す</td>
+<td id="id13">せ</td>
+<td id="id14">そ</td>
+</tr>
+<tr>
+<td id="id15">た</td>
+<td id="id16">ち</td>
+<td id="id17">つ</td>
+<td id="id18">て</td>
+<td id="id19">と</td>
+</tr>
+<tr>
+<td id="id20">な</td>
+<td id="id21">に</td>
+<td id="id22">ぬ</td>
+<td id="id23">ね</td>
+<td id="id24">の</td>
+</tr>
+<tr>
+<td id="id25">は</td>
+<td id="id26">ひ</td>
+<td id="id27">ふ</td>
+<td id="id28">へ</td>
+<td id="id29">ほ</td>
+</tr>
+<tr>
+<td id="id30">ま</td>
+<td id="id31">み</td>
+<td id="id32">む</td>
+<td id="id33">め</td>
+<td id="id34">も</td>
+</tr>
+<tr>
+<td id="id35">や</td>
+<td id="id36">ゆ</td>
+<td id="id37">よ</td>
+</tr>
+<tr>
+<td id="id38">わ</td>
+<td id="id39">を</td>
+<td id="id40">ん</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
