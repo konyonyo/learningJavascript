@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>midi est</title>
+<script>
+window.addEventListener("load", eventWindowLoaded, false);
+
+function eventWindowLoaded(){
+    audioApp();
+}
+
+function audioApp(){
+    var context = new AudioContext();
+    var osc = null;
+
+    startCollatz(837799);
+
+    function start(frequency){
+        osc = context.createOscillator();
+	osc.frequency.value = frequency;
+	osc.start(context.currentTime);
+	osc.connect(context.destination);
+	setTimeout(function(){
+	    stop()}, 256);
+    }
+
+    function stop(){
+        osc.stop(context.currentTime);
+	osc.disconnect(context.destination);
+	osc = null;
+    }
+
+    function collatz(n){
+        if(n % 2 == 0){
+            return n / 2;
+	}else{
+            return 3 * n + 1;
+	}
+    }
+
+    function startCollatz(n){
+        var a = n;
+	var text = "";
+	var timer = setInterval(function(){
+	                            text += a + "<br>"; 
+				    var obj = document.getElementById("collatz");
+				    obj.innerHTML = text;
+				    window.scrollTo(0, document.body.scrollHeight);
+	                            start(noteNumToFreq((a % 24) + 60));
+	                            a = collatz(a);
+			            if(a == 1){
+			                clearInterval(timer);
+	                                text += a + "<br>"; 
+				        obj.innerHTML = text;
+				        window.scrollTo(0, document.body.scrollHeight);
+	                                start(noteNumToFreq((a % 24) + 60));
+			            }
+			       }, 400);
+    }
+
+    function noteNumToFreq(noteNum){
+        return 440.0 * Math.pow(2.0, (noteNum - 69.0) / 12.0);
+    }
+
+}
+</script>
+</head>
+<body bgcolor="#000000" text="#00ff00">
+<h1>sound of collatz</h1>
+<div id="collatz"></div>
+</body>
+</html>
